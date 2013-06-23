@@ -1,8 +1,11 @@
 package UI;
 
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 
 public class MainWindow extends JFrame {
   //Creates the Main Window for the UI
@@ -13,11 +16,12 @@ public class MainWindow extends JFrame {
     setLayout(new FlowLayout());
     JMenuBar menu = new JMenuBar();
     menu.setOpaque(true);
-    menu.setPreferredSize(new Dimension(800,20));
+    menu.setPreferredSize(new Dimension(800, 20));
 
     JMenu file = new JMenu("file");
     JMenuItem close = new JMenuItem("close");
-    JMenuItem new_item = new JMenuItem("new");
+    JMenuItem import_p = new JMenuItem("import points");
+    JMenuItem import_e = new JMenuItem("import edges");
 
     //on close press close window
     close.addActionListener(new ActionListener() {
@@ -28,20 +32,80 @@ public class MainWindow extends JFrame {
       }
     });
 
-    file.add(new_item);
+    import_p.addActionListener(new ActionListener() {
+      final JFileChooser chooser = new JFileChooser();
+
+      public void actionPerformed(ActionEvent e) {
+        chooser.setFileFilter(new FileNameExtensionFilter("Point files only", "pnt"));
+        int chosen = chooser.showOpenDialog(MainWindow.this);
+        //open file
+        if( chosen == JFileChooser.APPROVE_OPTION ) {
+          //process file
+          process(chooser.getSelectedFile());
+        }
+      }
+    });
+
+    import_e.addActionListener(new ActionListener() {
+      final JFileChooser chooser = new JFileChooser();
+
+      @Override
+      public void actionPerformed(ActionEvent actionEvent) {
+        chooser.setFileFilter(new FileNameExtensionFilter("Edge files only", "edg"));
+        int chosen = chooser.showOpenDialog(MainWindow.this);
+        //open file
+        if( chosen == JFileChooser.APPROVE_OPTION ) {
+          //process file
+          process(chooser.getSelectedFile());
+        }
+      }
+
+    });
+
+    file.add(import_p);
+    file.add(import_e);
+    file.addSeparator();
     file.add(close);
 
     menu.add(file);
+
+    //add help menu
+    JMenu help = new JMenu("help");
+    JMenuItem help_contents = new JMenuItem("contents");
+    JMenuItem about = new JMenuItem("about");
+
+    help.add(help_contents);
+    help.add(about);
+
+    menu.add(help);
+
+    //add menu to panel
     add(menu);
 
+
+    //add a panel
+    JPanel mainPanel = new JPanel();
+    mainPanel.add(new JLabel("hello world"));
+    mainPanel.setBackground(new Color(100, 100, 100));
+    mainPanel.setPreferredSize(new Dimension(800, 590));
+    add(mainPanel);
+
+    //set properties of main window
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     setTitle("comp-geo");
-    setSize(800,600);
+    setSize(800, 600);
     setVisible(true);
 
   }
 
   public static void main(String[] args) {
-        MainWindow mw = new MainWindow();
+    MainWindow mw = new MainWindow();
+  }
+
+  public static void process(File file) {
+    if( file.getName().endsWith(".pnt") )
+      System.out.println("Point file = " + file.getName());
+    else if( file.getName().endsWith(".edg") )
+      System.out.println("Edge file = " + file.getName());
   }
 }
