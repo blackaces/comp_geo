@@ -57,6 +57,7 @@ public class MainWindow extends JFrame {
         if( chosen == JFileChooser.APPROVE_OPTION ) {
           //process file
           process(chooser.getSelectedFile());
+          ImportProcessBar importProcessBar = new ImportProcessBar(chooser.getSelectedFile());
         }
       }
 
@@ -94,6 +95,7 @@ public class MainWindow extends JFrame {
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     setTitle("comp-geo");
     setSize(800, 600);
+    setLocationRelativeTo(null);
     setVisible(true);
 
   }

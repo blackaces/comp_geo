@@ -1,12 +1,11 @@
 package UI;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 
-public class ImportProcessBar extends JPanel implements ActionListener {
+public class ImportProcessBar extends JFrame implements ActionListener {
   //GUI components
   private JButton cancel_button;
   private JButton close_button;
@@ -31,7 +30,8 @@ public class ImportProcessBar extends JPanel implements ActionListener {
     this.cancel_button = new JButton("Cancel");
     this.close_button = new JButton("Close");
 
-    this.setLayout(new FlowLayout());
+    GroupLayout layout = new GroupLayout(this.getContentPane());
+    this.getContentPane().setLayout(layout);
 
     //add processing to each component
 
@@ -45,6 +45,34 @@ public class ImportProcessBar extends JPanel implements ActionListener {
     this.add(this.progressBar);
     this.add(this.cancel_button);
     this.add(this.close_button);
+
+    //do layout work
+    layout.setAutoCreateGaps(true);
+    layout.setAutoCreateContainerGaps(true);
+
+    layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+        .addComponent(this.progressBar)
+        .addGroup(layout.createSequentialGroup()
+            .addComponent(this.cancel_button)
+            .addComponent(this.close_button))
+    );
+
+
+    layout.setVerticalGroup(layout.createSequentialGroup()
+        .addGap(50)
+        .addComponent(this.progressBar)
+        .addGap(50)
+        .addGroup(layout.createParallelGroup()
+            .addComponent(this.cancel_button)
+            .addComponent(this.close_button))
+    );
+
+    this.setSize(400, 200);
+    this.setLocationRelativeTo(null);
+    this.setVisible(true);
+    this.setTitle("Importing " + this.importing_file.getName());
+    this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
   }
 
   private int file_lines() throws IOException {
