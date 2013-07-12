@@ -11,12 +11,15 @@ public class MainWindow extends JFrame {
   //Creates the Main Window for the UI
 
   public MainWindow() {
+    //obtain window bounds
+    Rectangle bounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+
     //create window
     //create menu bar
-    setLayout(new FlowLayout());
+    setLayout(new BorderLayout());
     JMenuBar menu = new JMenuBar();
     menu.setOpaque(true);
-    menu.setPreferredSize(new Dimension(800, 20));
+    menu.setPreferredSize(new Dimension((int) bounds.getWidth(), 20));
 
     JMenu file = new JMenu("file");
     JMenuItem close = new JMenuItem("close");
@@ -39,7 +42,7 @@ public class MainWindow extends JFrame {
         chooser.setFileFilter(new FileNameExtensionFilter("Point files only", "pnt"));
         int chosen = chooser.showOpenDialog(MainWindow.this);
         //open file
-        if( chosen == JFileChooser.APPROVE_OPTION ) {
+        if (chosen == JFileChooser.APPROVE_OPTION) {
           //process file
           process(chooser.getSelectedFile());
         }
@@ -54,7 +57,7 @@ public class MainWindow extends JFrame {
         chooser.setFileFilter(new FileNameExtensionFilter("Edge files only", "edg"));
         int chosen = chooser.showOpenDialog(MainWindow.this);
         //open file
-        if( chosen == JFileChooser.APPROVE_OPTION ) {
+        if (chosen == JFileChooser.APPROVE_OPTION) {
           //process file
           process(chooser.getSelectedFile());
           ImportProcessBar importProcessBar = new ImportProcessBar(chooser.getSelectedFile());
@@ -81,14 +84,20 @@ public class MainWindow extends JFrame {
     menu.add(help);
 
     //add menu to panel
-    add(menu);
+    add(menu, BorderLayout.NORTH);
+
+
+    //add a side pane
+    JPanel sidePane = new JPanel();
+    sidePane.setPreferredSize(new Dimension(200, (int) (bounds.getHeight() - menu.getHeight())));
+    sidePane.setBorder(BorderFactory.createLineBorder(Color.black));
+    add(sidePane, BorderLayout.WEST);
 
 
     //add a panel
     JPanel mainPanel = new JPanel();
-    mainPanel.add(new JLabel("hello world"));
-    mainPanel.setBackground(new Color(100, 100, 100));
-    mainPanel.setPreferredSize(new Dimension(800, 590));
+    mainPanel.setPreferredSize(new Dimension((int) (bounds.getWidth() - 210), (int) (bounds.getHeight() - menu.getHeight())));
+    mainPanel.setBackground(Color.blue);
     add(mainPanel);
 
     //set properties of main window
@@ -105,9 +114,9 @@ public class MainWindow extends JFrame {
   }
 
   public static void process(File file) {
-    if( file.getName().endsWith(".pnt") )
+    if (file.getName().endsWith(".pnt"))
       System.out.println("Point file = " + file.getName());
-    else if( file.getName().endsWith(".edg") )
+    else if (file.getName().endsWith(".edg"))
       System.out.println("Edge file = " + file.getName());
   }
 }

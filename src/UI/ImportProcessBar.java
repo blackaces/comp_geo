@@ -22,7 +22,7 @@ public class ImportProcessBar extends JFrame implements ActionListener {
     try {
       this.file_length = file_lines();
       this.bufferedInputStream = new BufferedInputStream(new FileInputStream(this.importing_file));
-    } catch ( IOException e ) {
+    } catch (IOException e) {
       e.printStackTrace();
     }
     //build GUI components
@@ -51,20 +51,20 @@ public class ImportProcessBar extends JFrame implements ActionListener {
     layout.setAutoCreateContainerGaps(true);
 
     layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-        .addComponent(this.progressBar)
-        .addGroup(layout.createSequentialGroup()
-            .addComponent(this.cancel_button)
-            .addComponent(this.close_button))
+                                  .addComponent(this.progressBar)
+                                  .addGroup(layout.createSequentialGroup()
+                                                .addComponent(this.cancel_button)
+                                                .addComponent(this.close_button))
     );
 
 
     layout.setVerticalGroup(layout.createSequentialGroup()
-        .addGap(50)
-        .addComponent(this.progressBar)
-        .addGap(50)
-        .addGroup(layout.createParallelGroup()
-            .addComponent(this.cancel_button)
-            .addComponent(this.close_button))
+                                .addGap(50)
+                                .addComponent(this.progressBar)
+                                .addGap(50)
+                                .addGroup(layout.createParallelGroup()
+                                              .addComponent(this.cancel_button)
+                                              .addComponent(this.close_button))
     );
 
     this.setSize(400, 200);
@@ -78,14 +78,14 @@ public class ImportProcessBar extends JFrame implements ActionListener {
   private int file_lines() throws IOException {
     InputStream inputStream = new BufferedInputStream(new FileInputStream(this.importing_file));
     try {
-      byte[] c = new byte[ 1024 ];
+      byte[] c = new byte[1024];
       int lines = 0;
       int readChars = 0;
       boolean empty = true;
-      while ( (readChars = inputStream.read(c)) != -1 ) {
+      while ((readChars = inputStream.read(c)) != -1) {
         empty = false;
-        for ( int i = 0; i < readChars; ++i ) {
-          if( c[ i ] == '\n' ) {
+        for (int i = 0; i < readChars; ++i) {
+          if (c[i] == '\n') {
             lines++;
           }
         }
