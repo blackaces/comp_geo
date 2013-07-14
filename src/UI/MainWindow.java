@@ -10,16 +10,17 @@ import java.io.File;
 public class MainWindow extends JFrame {
   //Creates the Main Window for the UI
 
-  public MainWindow() {
+  private MainWindow() {
     //obtain window bounds
-    Rectangle bounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+    Rectangle windowBounds;
+    windowBounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
 
     //create window
     //create menu bar
     setLayout(new BorderLayout());
     JMenuBar menu = new JMenuBar();
     menu.setOpaque(true);
-    menu.setPreferredSize(new Dimension((int) bounds.getWidth(), 20));
+    menu.setPreferredSize(new Dimension((int) windowBounds.getWidth(), 20));
 
     JMenu file = new JMenu("file");
     JMenuItem close = new JMenuItem("close");
@@ -60,7 +61,8 @@ public class MainWindow extends JFrame {
         if (chosen == JFileChooser.APPROVE_OPTION) {
           //process file
           process(chooser.getSelectedFile());
-          ImportProcessBar importProcessBar = new ImportProcessBar(chooser.getSelectedFile());
+          //noinspection UnusedAssignment
+          final ImportProcessBar importProcessBar = new ImportProcessBar(chooser.getSelectedFile());
         }
       }
 
@@ -89,14 +91,14 @@ public class MainWindow extends JFrame {
 
     //add a side pane
     JPanel sidePane = new JPanel();
-    sidePane.setPreferredSize(new Dimension(200, (int) (bounds.getHeight() - menu.getHeight())));
+    sidePane.setPreferredSize(new Dimension(200, (int) (windowBounds.getHeight() - menu.getHeight())));
     sidePane.setBorder(BorderFactory.createLineBorder(Color.black));
     add(sidePane, BorderLayout.WEST);
 
 
     //add a panel
     JPanel mainPanel = new JPanel();
-    mainPanel.setPreferredSize(new Dimension((int) (bounds.getWidth() - 210), (int) (bounds.getHeight() - menu.getHeight())));
+    mainPanel.setPreferredSize(new Dimension((int) (windowBounds.getWidth() - 210), (int) (windowBounds.getHeight() - menu.getHeight())));
     mainPanel.setBackground(Color.blue);
     add(mainPanel);
 
@@ -110,13 +112,16 @@ public class MainWindow extends JFrame {
   }
 
   public static void main(String[] args) {
+    //noinspection UnusedAssignment
     MainWindow mw = new MainWindow();
   }
 
-  public static void process(File file) {
-    if (file.getName().endsWith(".pnt"))
-      System.out.println("Point file = " + file.getName());
-    else if (file.getName().endsWith(".edg"))
-      System.out.println("Edge file = " + file.getName());
+  /* TODO: write code for processing files into data structures */
+  private static void process(File file) {
+    if (file.getName().endsWith(".pnt")) {
+      //  TODO: process point file
+    } else if (file.getName().endsWith(".edg")) {
+      //  TODO: process edge file
+    }
   }
 }
